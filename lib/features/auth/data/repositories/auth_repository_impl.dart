@@ -14,17 +14,12 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    try {
-      final user = await remoteDataSource.loginWithEmailPassword(
+    return _getUser(
+      () async => await remoteDataSource.loginWithEmailPassword(
         email: email,
         password: password,
-      );
-      return right(user);
-    } on ServerException catch (e) {
-      return left(
-        Failure(e.message),
-      );
-    }
+      ),
+    );
   }
 
   @override
@@ -33,12 +28,18 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    try {
-      final user = await remoteDataSource.signUpWithEmailPassword(
+    return _getUser(
+      () async => await remoteDataSource.signUpWithEmailPassword(
         name: name,
         email: email,
         password: password,
-      );
+      ),
+    );
+  }
+
+  Future<Either<Failure, User>> _getUser(Future<User> Function() fn) async {
+    try {
+      final user = await fn();
       return right(user);
     } on ServerException catch (e) {
       return left(
