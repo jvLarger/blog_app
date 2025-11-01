@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+  <key>NSPhotoLibraryUsageDescription</key>
+	<string>Photos from gallery required to create posts</string>
+  <key>NSCameraUsageDescription</key>
+	<string>Photos from camera to create posts</string>
 </dict>
 </plist>
